@@ -11,10 +11,11 @@ use Session;
 
 class ImageUploadController extends Controller
 {
-    public function __construct() {
-   $this->middleware('authn');
+    public function __construct()
+    {
+        $this->middleware('authn');
     }
-  
+
     /**
      * Display a listing of the resource.
      *
@@ -24,9 +25,9 @@ class ImageUploadController extends Controller
     {
         return view('dashboard.image');
     }
- public function smart()
+    public function smart()
     {
-       $app = DB::table('alerts')->where("alerttype", "=", "video")->paginate(5);
+        $app = DB::table('alerts')->where("alerttype", "=", "video")->paginate(5);
 
         return view('smart')->with('app', $app);
     }
@@ -36,15 +37,15 @@ class ImageUploadController extends Controller
         return view('smartimage')->with('app', $app);
     }
 
-     public function api()
+    public function api()
     {
         $app = DB::table('alerts')->get();
-$data = array();
-foreach($app as $apps) {
-$data[] =[
-'name' => DB::table('mob_users')->where('userid', '=', $apps->userid)->first() 
-] ;
-}
+        $data = array();
+        foreach ($app as $apps) {
+            $data[] = [
+                'name' => DB::table('mob_users')->where('userid', '=', $apps->userid)->first()
+            ];
+        }
         return response()->json($app);
     }
     /**
@@ -65,32 +66,32 @@ $data[] =[
      */
     public function store(Request $request)
     {
-        ini_set('memory_limit', '4096M'); 
-          if($request->hasFile('image')){
+        ini_set('memory_limit', '4096M');
+        $fileplace = $request->repo;
 
+        if ($request->hasFile('image')) {
 
-            foreach($request->image as $file){
-            $new = time().$file->getClientOriginalName();
-            $file->move('asset', $new);
-                DB::table('db_org_medialog')->insert( [
-                    'image'=> 'asset/'.$new,
+            foreach ($request->image as $file) {
+                $new = time() . $file->getClientOriginalName();
+                $file->move($fileplace, $new);
+                DB::table('db_org_medialog')->insert([
+                    'image' => 'asset/' . $new,
                     'user_id' => Auth::user()->id,
                     'created_at' => Carbon::now()
                 ]);
                 DB::table('pending')->insert([
-                    'image'=> 'asset/'.$new,
+                    'image' => 'asset/' . $new,
                     'user_id' => Auth::user()->id,
                     'created_at' => Carbon::now()
                 ]);
 
-Session::flash('success', 'Image uploaded Successfully');
-            }  
+                Session::flash('success', 'Image uploaded Successfully');
+            }
+        } else {
 
-            } else {
+            Session::flash('failed', 'image upload failed');
+        }
 
-                Session::flash('failed', 'image upload failed');
-            }  
-                    
 
         return redirect()->back();
     }
@@ -105,7 +106,6 @@ Session::flash('success', 'Image uploaded Successfully');
     {
         $images = DB::table('db_org_medialog')->where('user_id', '=', Auth::user()->id)->get();
         return view('data')->with('images', $images);
-
     }
 
     /**
@@ -130,20 +130,18 @@ Session::flash('success', 'Image uploaded Successfully');
 
     {
         $this->validate($request, [
-          'password' => 'min:6|required'
+            'password' => 'min:6|required'
         ]);
         $get = User::where('id', '=', Auth::user()->id)->first();
 
 
         $get->password = bcrypt($request->password);
 
-       if($request->password2 !== null) {
-        $get->password2 = $request->password2;
-
-       } else {
-        $get->password2 = $get->password2;
-
-       }
+        if ($request->password2 !== null) {
+            $get->password2 = $request->password2;
+        } else {
+            $get->password2 = $get->password2;
+        }
         $get->save();
         Session::flash('success', "Password Changed Successfully");
         return redirect()->back();
@@ -160,3 +158,4 @@ Session::flash('success', 'Image uploaded Successfully');
         //
     }
 }
+

@@ -110,3 +110,8 @@ Route::post('/upload/image',[
   Route::get('/mapp', function() {
    return view('mapping');
   });
+Route::get('/gait/upload', 'GaitController@upload');
+Route::post('/gait/upload', [
+    'uses' => 'GaitController@post',
+    'as' => 'GaitUpload'
+]);
