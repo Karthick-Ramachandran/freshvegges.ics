@@ -6,12 +6,24 @@
 
 </div>
 <div class="row mt-5">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12 col-sm-6 mb-4">
+    @foreach ($app as $apps)
+         <div class="col-xl-6 col-lg-6 col-md-6 col-xs-12 col-sm-12 mb-4">
         <center>
-            <img src="{{ asset('jaypics/IMG_20181223_152851.jpg') }}" width="300px" height="250px" alt="" srcset="">
-        </center>
-        </div>
+            <img src="{{ asset($apps->storagepath) }}" width="300px" height="250px" alt="" srcset="">
+
+<?php
+$words = $apps->storagepath;
+
+$words = preg_replace('/[0-9]+/', '', $words);
+$output = str_replace('wanted/', '', $words);
+ ?>
+    <h6>{{$output}}</h6>        
+</center>
+        </div>   
+    @endforeach
+
 </div>
 
 @endsection
+
 

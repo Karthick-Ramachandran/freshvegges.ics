@@ -37,6 +37,12 @@ class ImageUploadController extends Controller
         return view('smartimage')->with('app', $app);
     }
 
+ public function del()
+    {
+        $images = DB::table('db_org_medialog')->where('user_id', '=', Auth::user()->id)->get();
+            return response()->json($images);
+
+    }
     public function api()
     {
         $app = DB::table('alerts')->get();
@@ -67,24 +73,30 @@ class ImageUploadController extends Controller
     public function store(Request $request)
     {
         ini_set('memory_limit', '4096M');
-        $fileplace = $request->repo;
-
         if ($request->hasFile('image')) {
 
             foreach ($request->image as $file) {
-                $new = time() . $file->getClientOriginalName();
-                $file->move($fileplace, $new);
-                DB::table('db_org_medialog')->insert([
-                    'image' => 'asset/' . $new,
-                    'user_id' => Auth::user()->id,
-                    'created_at' => Carbon::now()
-                ]);
-                DB::table('pending')->insert([
-                    'image' => 'asset/' . $new,
-                    'user_id' => Auth::user()->id,
-                    'created_at' => Carbon::now()
-                ]);
-
+                if ($request->repo == "wanted") {
+                    $this->validate($request, [
+                        'storagepath' => 'image'
+                    ]);
+                    $new = time() . $file->getClientOriginalName();
+                    $file->move('wanted', $new);
+                    DB::table('wanted')->insert([
+                        'storagepath' => 'wanted/' . $new,
+                        'user_id' => Auth::user()->id,
+                        'created_at' => Carbon::now()
+                    ]);
+                } else {
+                    $img = time() . $file->getClientOriginalName();
+                    $file->move('repo', $img);
+                    DB::table('db_org_medialog')->insert([
+                        'image' => 'repo/' . $img,
+                        'user_id' => Auth::user()->id,
+                        'status' => 'pending',
+                        'created_at' => Carbon::now()
+                    ]);
+                }
                 Session::flash('success', 'Image uploaded Successfully');
             }
         } else {

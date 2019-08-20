@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Gait;
+use Auth;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
 
 class GaitController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('authn');
-    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,21 +27,19 @@ class GaitController extends Controller
     {
         ini_set('memory_limit', '4096M');
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('data')) {
 
-            foreach ($request->image as $file) {
+            foreach ($request->data as $file) {
                 $new = time() . $file->getClientOriginalName();
                 $file->move('gait', $new);
-                DB::table('gaits')->insert([
-                    'image' => 'asset/' . $new,
-                    'user_id' => Auth::user()->id,
-                    'created_at' => Carbon::now()
+                DB::table('gait')->insert([
+                    'data' => 'gait/' . $new
                 ]);
-                Session::flash('success', 'Image uploaded Successfully');
+                Session::flash('success', 'Data uploaded Successfully');
             }
         } else {
 
-            Session::flash('failed', 'image upload failed');
+            Session::flash('failed', 'Data upload failed');
         }
 
 

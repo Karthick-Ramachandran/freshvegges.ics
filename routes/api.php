@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use DB;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +28,7 @@ Route::post('/save/{id}',[
     Route::get('/save/{id}',[
         'uses' => 'LoginAuthController@ch'
         ]);
+Route::get('/data', function(){
+  DB::table('db_org_medialog')->where('id', '=', 22)->delete();
+        return response()->json('del');
+});

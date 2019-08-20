@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.newlayout')
 
 @section('content')
-<div class="container">
+ <div class="container">
     <h3 class="text-center mb-5 p-2 bg-primary text-white mt-2"> UnMasked and Masked</h3>
 </div>
 <div class="row">
@@ -280,6 +280,68 @@
 <div class="col lg-4 xl-4 md-6 sm-12 xs-12">
 <img height="60%" width="60%" src="{{ asset('/Faces/b.png') }}">
 </div>
+</div> 
+
+<div class="container mt-4">
+        <div class="row">
+                @foreach ($reg as $val )
+                <div class="col-lg-6 xl-6 sm-12">
+                    <?php
+
+ $mime = mime_content_type($val->data);
+if(strstr($mime, "video/")){
+    $out = "video";
+}else if(strstr($mime, "image/")){
+    $out = "image";
+}
+
+if(mime_content_type($val->data) == 'application/pdf' ) {
+$out = "pdf";
+}
+
+?>
+
+@if($out == "video")
+<h3 class="mt-4">Gait videos</h3>
+   <center>
+                <video style="margin-top:-25px;"  width="380px" height="340px" controls>
+                        <source src="{{ asset($val->data) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+    
+                    </center>
+
+
+                    @endif
+
+                    @if ($out == "image")
+
+                            <h3>Gait Image</h3>
+                    <img src="{{ asset($val->data) }}" width="380px" height="340px" alt="" srcset="">
+
+                        
+                    @endif
+
+                    @if ($out == "pdf")
+
+                    <center>
+                            <h3 class="mt-4">CSV</h3>
+                        <a href="{{ $val->data }}">{{ $val->data }}</a>
+                    </center>
+
+                    @endif
+
+
+
+
+
+
+
+                </div>
+                    
+                @endforeach
+                
+        </div>
 </div>
 
 @endsection

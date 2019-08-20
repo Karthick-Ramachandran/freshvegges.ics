@@ -1,66 +1,28 @@
-@extends('dashboard.layouts.app')
+	@extends('dashboard.layouts.app')
 
 @section('content')
+<div class="mt-5 text-center">
+        <h3 class="text-center">Number Plate</h3>
 
+</div>
 <div class="row mt-5">
-    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 mb-4">
-<center>
-        <video width="380" height="340" autoplay controls>
-            <source src="{{ asset('object/jay-1.mp4') }}">
-            Your browser does not support the video tag.
-          </video>
-</center>  
-  </div>
-    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 mb-4">
-<center>        
-<video width="380" height="340" controls>
-            <source src="{{ asset('object/jay-2.mp4') }}">
-            Your browser does not support the video tag.
-          </video>
-</center>    
-</div>
-    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 mb-4">
-<center>        
-<video width="380" height="340" controls>
-            <source src="{{ asset('object/VID_20190623_174215.mp4') }}">
-            Your browser does not support the video tag.
-          </video>
-</center>    
-</div>
+    @foreach ($obj as $apps)
+        
+    <div class="col-xl-6 col-lg-6 col-md-6 col-xs-12 col-sm-6 mb-4">
+         <video width="280" height="240" controls>
+                        <?php 
+                        $str = $apps->objectdetection;
+                        $str = preg_replace("/\/var\/www\/freshvegges.pics\/public\//", '', $str);
+                        ?>
+                         <source src="{{ asset($str) }}" type="video/mp4">
+                         Your browser does not support the video tag.
+                       </video>
+    </div>
+         @endforeach
 
-    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 mb-4">
-<center>        
-<video width="380" height="340" controls>
-            <source src="{{ asset('object/VID_20190623_175225.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-</center>    
-</div>
-    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 mb-4">
-<center>        
-<video width="380" height="340" controls>
-            <source src="{{ asset('object/VID_20190623_175258.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-</center>    
-</div>
-    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 mb-4">
-<center>        
-<video width="380" height="340" controls>
-            <source src="{{ asset('object/VID_20190623_175320.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-</center>    
-</div>
-    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 mb-4">
-<center>        
-<video width="380" height="340" controls>
-            <source src="{{ asset('object/airport_output.avi') }}">
-            Your browser does not support the video tag.
-          </video>
-</center>    
-</div>
+    
 </div>
 
 @endsection
+
 

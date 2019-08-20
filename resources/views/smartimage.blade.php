@@ -11,10 +11,7 @@
 
                         <th>Alert id</th>
                         <td>Date</td>
-                        <th>Progress</th>
-                        <th>Alert type</th>
-                        <th>Total Parts</th>
-                        <th>Parts uploaded</th>
+                     
                         <th>Image</th>
 
                     </tr>
@@ -24,10 +21,6 @@
                <tr>
             <td>{{ $apps->alertid }}</td>
                         <td>{{ $apps->createdon }}</td>
-            <td>Not Available</td>
-            <td>{{ $apps->alerttype }}</td>
-            <td>{{ $apps->totalparts }}</td>
-            <td>{{ $apps->partsuploaded }}</td>
             <?php 
             $str = $apps->alertstoragepath;
             $str = preg_replace("/\/var\/www\/smartalert.nicesolutionsllc.com\//", '', $str);

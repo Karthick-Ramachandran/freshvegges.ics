@@ -1,4 +1,6 @@
 <?php
+use DB;
+use Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -9,6 +11,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/loc/{id}', function() {
+$user = DB::table('location')->limit(200)->get();
+return response()->json($user);
+});
+Route::get('/loce', function() {
+$user = DB::table('location')->get();
+return response()->json($user);
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,8 +53,9 @@ Route::post('/mail', [
   Route::get('/smaralertimage',[
         'uses' => 'ImageUploadController@smartImage'
         ]);
-Route::get('/recognition', function() {
-    return view('recognition');
+Route::get('/recognition', function () {
+    $reg = DB::table('gait')->get();
+    return view('recognition')->with('reg', $reg);
 });
 Route::get('/admin', [
     'uses' => 'HomeController@get',
@@ -61,28 +73,33 @@ Route::get('/finalauth', function() {
     return view('final');
 
 });
- Route::get('/objectdec', function() {
-    return view('objectdec');
-   })->middleware('authn');
-Route::get('/wanted', function() {
-    return view('wanted');
+ Route::get('/objectdec', function () {
+    $obj = DB::table('db_out_medialog')->where('objectdetection', "!=", null)->get();
+    return view('objectdec')->with('obj', $obj);
+})->middleware('authn');
+Route::get('/want', function() {
+$app = DB::table('wanted')->where('user_id', '=', Auth::user()->id)->get();   
+ return view('wanted')->with('app', $app);
    })->middleware('authn');
 Route::get('/data',[
     'uses' => 'ImageUploadController@show'
     ]);
-Route::get('/facerec', function() {
-     return view('facereg');
-    })->middleware('authn');
+Route::get('/facerec', function () {
+    $fac = DB::table('db_out_medialog')->where('face1', "!=", null)->get();
+
+    return view('facereg')->with('fac', $fac);
+})->middleware('authn');
 Route::get('/getcsv1', function() {
  return response()->download(public_path('csv/original.csv'));
 });
 Route::get('/getcsv2', function() {
     return response()->download(public_path('csv/original.csv'));
    });
- Route::get('/numberplate', function() {
-        return view('numberplate');
-       })->middleware('authn');
+ Route::get('/numberplate', function () {
+    $num = DB::table('db_out_medialog')->where('numberplatte', "!=", null)->get();
 
+    return view('numberplate')->with('num', $num);
+})->middleware('authn');
    Route::get('/changep', function() {
     return view('changep');
    })->middleware('authn');
@@ -115,3 +132,11 @@ Route::post('/gait/upload', [
     'uses' => 'GaitController@post',
     'as' => 'GaitUpload'
 ]);
+Route::get('/tables', function (){
+$tables = DB::select('SHOW TABLES');
+
+    
+ $tables = array_map('current',$tables);
+
+dd($tables);
+});

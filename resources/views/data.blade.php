@@ -10,40 +10,43 @@
                     <tr>
 
                         <th>Image</th>
-                        <th>Annotated Text</th>
-                        <td>Co-ordinates</td>
                         <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
                @foreach ($images as $img)
                <tr>
-                <td><img src="{{ asset($img->image) }}"  onClick="reply_click(this.id)" style="height:300px; width:300px;" id="{{ $img->id }}" alt="" srcset="">
-                  <td>{{$img->text}}</td>
-                    <td> X: &nbsp;{{ $img->x }} <br/>
-                    Y: &nbsp; {{ $img->y}}
-                    <br/>
+<?php
 
-                    Height: &nbsp; {{$img->height}} <br/>
-                    Width: &nbsp; {{$img->width}} </td>
+ $mime = mime_content_type($img->image);
+if(strstr($mime, "video/")){
+    $data = "video";
+}else if(strstr($mime, "image/")){
+    $data = "image";
+
+}?>
+@if($data =="image")
+                <td><img src="{{ asset($img->image) }}" onmouseover="idv = this.id" onclick="reply_click()" style="height:300px; width:300px;" id="{{ $img->id }}" alt="" srcset="">
+@else
+<td><video width="300px" height="300px" controls>
+            <source src="{{ asset($img->image) }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video></td>
+@endif                 
+     
+                   
                     <td>                 {{  Carbon\Carbon::parse($img->created_at)->format('d-M-y')}}
                         </td>
                 </td>
                 </tr>
-               
-                <script>
-                
-                
-                   
-                </script>
                @endforeach
             </tbody>
 
                 <tfoot>
                         <th>Image</th>
-                                                <th>Annotated Text</th>
+                                              
 
-                        <td>Co-ordinates</td>
+                       
                         <th>Date</th>
                 </tfoot>
             </table>
@@ -58,10 +61,10 @@
            var y;
            var width;
            var height;
-            function reply_click(clicked_id)
+           var idv;
+            function reply_click()
             {
-
-                anno.makeAnnotatable(document.getElementById(clicked_id));
+                anno.makeAnnotatable(document.getElementById(idv));
                         
                 anno.addHandler('onAnnotationCreated', function(annotation) {
              var data = {
@@ -70,7 +73,7 @@
                  height: annotation.shapes[0].geometry.height,
                  width: annotation.shapes[0].geometry.width
              }
-            axios.post(`/api/save/${clicked_id}`, {
+            axios.post(`/api/save/${idv}`, {
                 x: annotation.shapes[0].geometry.x,
                 y: annotation.shapes[0].geometry.y,
                 height: annotation.shapes[0].geometry.height,
@@ -86,27 +89,21 @@
                    console.log(annotation.shapes[0].geometry);
                 });
 
-                axios.get(`/api/save/${clicked_id}`)
+                axios.get(`/api/save/${idv}`)
                 .then((res) => {
                     var myAnnotation = {
-                        src : document.getElementById(clicked_id).src,
-                       
+                        src : document.getElementById(idv).src,
                         text : res.data.text,
-                       
                         shapes : [{
                           type : 'rect',
-                          
-                          geometry : { x : Number(res.data.x), y: Number(res.data.y), width : Number(res.data.width), height: Number(res.data.height) }
-                      
-                          
+                          geometry : { x : Number(res.data.x), y: Number(res.data.y), width : Number(res.data.width), height: Number(res.data.height) }    
                         }]
                       
                     };
                     anno.addAnnotation(myAnnotation);
-
                 })
-          
             }
        </script>
 
 @endsection
+

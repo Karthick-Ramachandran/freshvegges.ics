@@ -6,20 +6,23 @@
 
 </div>
 <div class="row mt-5">
+    @foreach ($num as $apps)
+        
     <div class="col-xl-6 col-lg-6 col-md-6 col-xs-12 col-sm-6 mb-4">
-        <img src="{{ asset('number/frame2-out.jpg') }}" width="300px" height="250px" alt="" srcset="">
+         <video width="280" height="240" controls>
+                        <?php 
+                        $str = $apps->numberplatte;
+                        $str = preg_replace("/\/var\/www\/freshvegges.pics\/public\//", '', $str);
+                        ?>
+                         <source src="{{ asset($str) }}" type="video/mp4">
+                         Your browser does not support the video tag.
+                       </video>
     </div>
-     <div class="col-xl-6 col-lg-6 col-md-6 col-xs-12 col-sm-6 mb-4">
-        <img src="{{ asset('number/frame2.jpg') }}" width="300px" height="250px" alt="" srcset="">
-    </div>
-     <div class="col-xl-6 col-lg-6 col-md-6 col-xs-12 col-sm-6 mb-4">
-        <img src="{{ asset('number/frame26-out.jpg') }}" width="300px" height="250px" alt="" srcset="">
-    </div> 
-    <div class="col-xl-6 col-lg-6 col-md-6 col-xs-12 col-sm-6 mb-4">
-        <img src="{{ asset('number/frame26.jpg') }}" width="300px" height="250px" alt="" srcset="">
-    </div>
+         @endforeach
+
     
 </div>
 
 @endsection
+
 

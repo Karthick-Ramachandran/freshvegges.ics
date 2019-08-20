@@ -116,7 +116,7 @@ if (time() - $datet > 2 * 60) {
 else if($request->otp == $user->otp) {
             $user->login2 = 1;
             $user->save();
-            return redirect('/finalauth');
+            return redirect('/home');
         }
         else {
             Session::flash('failed', 'You should enter correct otp');
