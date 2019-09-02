@@ -1,7 +1,4 @@
 /node_modules
 /.idea
 /.vscode
-public/uploads
-public/videos
-public/output
-public/output-1
+/public
