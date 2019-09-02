@@ -27,13 +27,13 @@ class ImageUploadController extends Controller
     }
     public function smart()
     {
-        $app = DB::table('alerts')->where("alerttype", "=", "video")->paginate(5);
+        $app = DB::table('alerts')->where("alerttype", "=", "video")->orderBy('createdon', 'desc')->paginate(5);
 
         return view('smart')->with('app', $app);
     }
     public function smartImage()
     {
-        $app = DB::table('alerts')->where("alerttype", "=", "image")->get();
+        $app = DB::table('alerts')->where("alerttype", "=", "image")->orderBy('createdon', 'desc')->get();
         return view('smartimage')->with('app', $app);
     }
 

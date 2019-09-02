@@ -42,10 +42,7 @@
                         
                         <th>Alert id</th>
                         <td>Date</td>
-                        <th>Progress</th>
-                        <th>Alert type</th>
-                        <th>Total Parts</th>
-                        <th>Parts uploaded</th>
+                       
                         <th>Image</th>
                 </tfoot>
             </table>

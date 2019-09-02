@@ -54,8 +54,14 @@ Route::post('/mail', [
         'uses' => 'ImageUploadController@smartImage'
         ]);
 Route::get('/recognition', function () {
+   
+    return view('recognition');
+});
+
+Route::get('/gait/view', function() {
     $reg = DB::table('gait')->get();
-    return view('recognition')->with('reg', $reg);
+return view('gaiview')->with('reg',  $reg);
+
 });
 Route::get('/admin', [
     'uses' => 'HomeController@get',

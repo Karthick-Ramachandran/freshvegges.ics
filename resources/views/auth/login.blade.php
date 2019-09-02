@@ -166,6 +166,9 @@
 <body>
 
         <body>
+               @if(Session::has('error'))
+                <p style="color:white;text-align:center">{{ Session::get('error') }}</p>
+                @endif
                 @if ( count( $errors ) > 0 )
                 @foreach ($errors->all() as $error)
                 <div style="padding: 5px; text-align:center; color:white">{{ $error}} </div>

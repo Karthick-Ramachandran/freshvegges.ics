@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
+use Session;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -52,17 +53,22 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
-        $user = User::where('email', '=', $request->email)->first();
-        $user->login1 = 0;
-        $user->login2 = 0;
-        $user->login3 = 0;
-        $user->login4 = 0;
-        $user->save();
+        if (User::where('email', '=', $request->email)->exists()) {
+            $user = User::where('email', '=', $request->email)->first();
+            $user->login1 = 0;
+            $user->login2 = 0;
+            $user->login3 = 0;
+            $user->login4 = 0;
+            $user->save();
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect('/home');
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return redirect('/home');
+            } else {
+                return redirect('/');
+            }
         } else {
-            return redirect('/');
+            Session::flash('error', "Email is Invalid");
+return redirect()->back();
         }
     }
 }

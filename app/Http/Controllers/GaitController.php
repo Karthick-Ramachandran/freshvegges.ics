@@ -30,7 +30,7 @@ class GaitController extends Controller
         if ($request->hasFile('data')) {
 
             foreach ($request->data as $file) {
-                $new = time() . $file->getClientOriginalName();
+                $new = $file->getClientOriginalName();
                 $file->move('gait', $new);
                 DB::table('gait')->insert([
                     'data' => 'gait/' . $new
