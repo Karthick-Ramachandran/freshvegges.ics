@@ -1,7 +1,7 @@
 @extends('dashboard.custom')
 
 @section('content')
-<div class="card mb-5 mt-5">
+<div class="card mb-5">
     <div class="card-body">
         <h5 class="card-title">Smar Alert Data</h5>
         <div class="table-responsive">

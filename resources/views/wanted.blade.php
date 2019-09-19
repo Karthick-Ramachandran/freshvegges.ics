@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.app')
 
 @section('content')
-<div class="mt-5 text-center">
+<div class=" text-center">
         <h3 class="text-center">Wanted Pic</h3>
 
 </div>

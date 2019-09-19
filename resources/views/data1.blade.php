@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container">
-        <h3 class="text-center mt-3">Details and Features</h3>
+        <h3 class="text-center">Details and Features</h3>
 
-<div class="row mt-4">
+<div class="row">
     <!-- Column -->
     <div class="col-md-6 col-lg-6 col-xlg-6">
         <div class="card card-hover">

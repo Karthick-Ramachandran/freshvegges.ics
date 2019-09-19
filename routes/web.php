@@ -92,8 +92,9 @@ Route::get('/data',[
     ]);
 Route::get('/facerec', function () {
     $fac = DB::table('db_out_medialog')->where('face1', "!=", null)->get();
+    $app = DB::table('facereg')->get();
 
-    return view('facereg')->with('fac', $fac);
+    return view('facereg')->with('fac', $fac)->with('app', $app);
 })->middleware('authn');
 Route::get('/getcsv1', function() {
  return response()->download(public_path('csv/original.csv'));

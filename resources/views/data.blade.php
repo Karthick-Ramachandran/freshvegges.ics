@@ -17,24 +17,32 @@
                @foreach ($images as $img)
                <tr>
 <?php
-
+if(file_exists($img->image)){
  $mime = mime_content_type($img->image);
 if(strstr($mime, "video/")){
     $data = "video";
 }else if(strstr($mime, "image/")){
     $data = "image";
 
-}?>
+}
+}
+else {
+$data = "1";
+}
+?>
 @if($data =="image")
                 <td><img src="{{ asset($img->image) }}" onmouseover="idv = this.id" onclick="reply_click()" style="height:300px; width:300px;" id="{{ $img->id }}" alt="" srcset="">
-@else
+@endif
+@if($data == "video")
 <td><video width="300px" height="300px" controls>
             <source src="{{ asset($img->image) }}" type="video/mp4">
             Your browser does not support the video tag.
           </video></td>
-@endif                 
-     
-                   
+
+@endif                
+@if($data =="1") 
+<td>Content deleted from server</td>
+        @endif           
                     <td>                 {{  Carbon\Carbon::parse($img->created_at)->format('d-M-y')}}
                         </td>
                 </td>

@@ -2,10 +2,10 @@
 
 
 @section('content')
-     <h3 class="text-center mt-3">
+     <h3 class="text-center ">
          Masked and unmasked
      </h3>
-<div class="row mt-5">
+<div class="">
 <div class="col-lg-4 col-xl-4 col-md-6 col-sm-12 mb-5">
     <video width="320px" height="320px" controls>
     <source src="{{ asset('gait/1566275877VID_20190819_173337.mp4') }}" type="video/mp4">      

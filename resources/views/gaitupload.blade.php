@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="mt-4">
+<div class="">
     <div class="row">
   <div class="col-xl-5 col-lg-5 col-xs-8 col-sm-8">
     @if(Session::has('failed'))

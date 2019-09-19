@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.map')
 
 @section('content')
- <div class="row mt-3">
+ <div class="row">
 	<div class="col-lg-8">
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">

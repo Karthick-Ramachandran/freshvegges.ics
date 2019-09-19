@@ -2,7 +2,7 @@
 
 
 @section('content')
-<div class="mt-4" id="mynetwork"></div>
+<div class="" id="mynetwork"></div>
 
          <script type="text/javascript">
 // /home/karthickaravindan/Documents/Project/network_graph
